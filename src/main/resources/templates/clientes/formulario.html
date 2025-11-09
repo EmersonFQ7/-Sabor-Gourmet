@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Formulario Cliente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/dashboard">
+            <i class="fas fa-utensils"></i> Sabor Gourmet
+        </a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link text-white" href="/clientes">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0" th:text="${titulo}">Formulario de Cliente</h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+                        <!-- Campo oculto para ID -->
+                        <input type="hidden" th:field="*{idCliente}">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dni" class="form-label">DNI *</label>
+                                <input type="text" th:field="*{dni}"
+                                       class="form-control" id="dni"
+                                       placeholder="Ingrese DNI (8 dígitos)" required>
+                                <div th:if="${#fields.hasErrors('dni')}" class="text-danger">
+                                    <small th:errors="*{dni}">Error en DNI</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="telefono" class="form-label">Teléfono *</label>
+                                <input type="text" th:field="*{telefono}"
+                                       class="form-control" id="telefono"
+                                       placeholder="Ingrese teléfono (9 dígitos)" required>
+                                <div th:if="${#fields.hasErrors('telefono')}" class="text-danger">
+                                    <small th:errors="*{telefono}">Error en teléfono</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="nombres" class="form-label">Nombres *</label>
+                                <input type="text" th:field="*{nombres}"
+                                       class="form-control" id="nombres"
+                                       placeholder="Ingrese nombres" required>
+                                <div th:if="${#fields.hasErrors('nombres')}" class="text-danger">
+                                    <small th:errors="*{nombres}">Error en nombres</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="apellidos" class="form-label">Apellidos *</label>
+                                <input type="text" th:field="*{apellidos}"
+                                       class="form-control" id="apellidos"
+                                       placeholder="Ingrese apellidos" required>
+                                <div th:if="${#fields.hasErrors('apellidos')}" class="text-danger">
+                                    <small th:errors="*{apellidos}">Error en apellidos</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo Electrónico</label>
+                            <input type="email" th:field="*{correo}"
+                                   class="form-control" id="correo"
+                                   placeholder="Ingrese correo electrónico">
+                            <div th:if="${#fields.hasErrors('correo')}" class="text-danger">
+                                <small th:errors="*{correo}">Error en correo</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <select th:field="*{estado}" class="form-select" id="estado">
+                                <option value="ACTIVO">ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/clientes}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

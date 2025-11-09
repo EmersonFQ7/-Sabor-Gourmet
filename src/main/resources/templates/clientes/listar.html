@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Clientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/dashboard">
+            <i class="fas fa-utensils"></i> Sabor Gourmet
+        </a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link text-white" href="/dashboard">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Alertas -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="${titulo}">Gestión de Clientes</h2>
+        <a th:href="@{/clientes/nuevo}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Cliente
+        </a>
+    </div>
+
+    <!-- Tabla de Clientes -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>DNI</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cliente : ${clientes}" th:object="${cliente}">
+                        <td th:text="*{idCliente}">1</td>
+                        <td th:text="*{dni}">12345678</td>
+                        <td th:text="*{nombres}">Juan</td>
+                        <td th:text="*{apellidos}">Pérez</td>
+                        <td th:text="*{telefono}">987654321</td>
+                        <td th:text="*{correo}">juan@email.com</td>
+                        <td>
+                            <span th:if="*{estado == 'ACTIVO'}" class="badge bg-success">ACTIVO</span>
+                            <span th:if="*{estado == 'INACTIVO'}" class="badge bg-danger">INACTIVO</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/clientes/editar/{id}(id=*{idCliente})}"
+                               class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a th:href="@{/clientes/eliminar/{id}(id=*{idCliente})}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('¿Está seguro de eliminar este cliente?')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${clientes.empty}">
+                        <td colspan="8" class="text-center text-muted">
+                            No hay clientes registrados
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
